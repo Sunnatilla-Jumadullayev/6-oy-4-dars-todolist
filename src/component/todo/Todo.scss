@@ -1,0 +1,21 @@
+.text-pretty {
+  text-wrap: pretty;
+}
+.todoList {
+  width: 350px;
+  word-break: break-all;
+}
+.todoItem b {
+  overflow: auto;
+  // text-overflow: ellipsis;
+  white-space: wrap;
+  width: 330px;
+  display: block;
+}
+.todoItem b::-webkit-scrollbar {
+  height: 2px;
+  cursor: pointer;
+}
+body {
+  background-color: yellow;
+}
