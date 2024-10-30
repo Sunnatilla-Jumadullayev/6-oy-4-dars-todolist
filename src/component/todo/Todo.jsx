@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { TiDelete } from "react-icons/ti";
+import { TiDelete, TiEdit } from "react-icons/ti";
 import "./Todo.scss";
 // hook
 
@@ -79,6 +79,9 @@ const Todo = () => {
                 <span className="text-[10px]">{item.time}</span>
                 <button onClick={() => delete__list(item.id)}>
                   <TiDelete />
+                </button>
+                <button>
+                  <TiEdit />
                 </button>
               </div>
             </div>
