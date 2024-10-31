@@ -7,6 +7,7 @@ import "./Todo.scss";
 const Todo = () => {
   const [text, setText] = useState("");
   const [data, setData] = useState([]);
+  const [edit, setEdit] = useState(null);
 
   // Load TODOs from local storage on app startup
   useEffect(() => {
@@ -26,22 +27,34 @@ const Todo = () => {
     if (!text.trim()) {
       return null;
     }
-    let date = new Date();
-    let newTodos = {
-      id: uuidv4(),
-      text,
-      time: `${date.getHours().toString().padStart(2, "0")}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`,
-    };
-    setData([...data, newTodos]);
+    if (edit) {
+      // update
+      let update = { ...edit, text };
+      setData(data?.map((item) => (item.id === edit.id ? update : item)));
+      setEdit(null);
+    } else {
+      let date = new Date();
+      let newTodos = {
+        id: uuidv4(),
+        text,
+        time: `${date.getHours().toString().padStart(2, "0")}:${date
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`,
+      };
+      setData([...data, newTodos]);
+    }
     setText("");
     console.log(data);
   };
   const delete__list = (id) => {
     console.log(id);
     setData(data.filter((item) => item.id !== id));
+  };
+  const handleEdit = (todo) => {
+    console.log(todo);
+    setEdit(todo);
+    setText(todo.text);
   };
 
   return (
@@ -64,7 +77,7 @@ const Todo = () => {
           />
           {text.trim() && (
             <button className=" bg-blue-500 hover:bg-blue-800 p-2 rounded-xl font-bold text-white">
-              Create
+              {edit ? "save " : "Create "}
             </button>
           )}
         </form>
@@ -80,7 +93,7 @@ const Todo = () => {
                 <button onClick={() => delete__list(item.id)}>
                   <TiDelete />
                 </button>
-                <button>
+                <button onClick={() => handleEdit(item)}>
                   <TiEdit />
                 </button>
               </div>
